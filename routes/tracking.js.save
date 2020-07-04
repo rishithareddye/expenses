@@ -1,0 +1,114 @@
+var express = require('express');
+var router = express.Router();
+
+
+/**
+ * @swagger
+ * definitions:
+ *   Puppy:
+ *     properties:
+ *       name:
+ *         type: string
+ *       breed:
+ *         type: string
+ *       age:
+ *         type: integer
+ *       sex:
+ *         type: string
+ */
+/**
+ * @swagger
+ * /tracking:
+ *   get:
+ *     tags:
+ *       - Tracking
+ *     description: Returns all expense tracking records
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: An array of tracking
+ schema:
+ *           $ref: '#/definitions/Puppy' */
+
+/* GET tracking listing. */
+router.get('/', function(req, res, next) {
+	connection.query('SELECT * from tracking', function (error, results, fields) {
+		res.setHeader('Content-Type', 'application/json');
+	  	if(error){
+	  		res.status(500).send(JSON.stringify({"status": 500, "error": error, "response": null})); 
+	  		//If there is error, we send the error in the error section with 500 status
+	  	} else {
+  			res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  			//If there is no error, all is good and response is 200OK.
+	  	}
+  	});
+});
+/* GET tracking listing. */
+router.get('/:id', function(req, res, next) {
+	connection.query("SELECT * from tracking where id="+connection.escape(req.params.id), function (error, results, fields) {
+		res.setHeader('Content-Type', 'application/json');
+	  	if(error){
+	  		res.status(500).send(JSON.stringify({"status": 500, "error": error, "response": null})); 
+	  		//If there is error, we send the error in the error section with 500 status
+	  	} else {
+  			res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  			//If there is no error, all is good and response is 200OK.
+	  	}
+  	});
+});
+/* POST tracking listing. */
+router.post('/', function(req, res, next) {
+	var CURRENT_TIMESTAMP = { toSqlString: function() { return 'CURRENT_TIMESTAMP()'; } };
+	var tracking = req.body;
+	if(tracking.hasOwnProperty('id'))
+		delete tracking.id;
+	tracking.changesmadeon = CURRENT_TIMESTAMP;
+	connection.query("INSERT INTO tracking set ?",tracking, function (error, results, fields) {
+		res.setHeader('Content-Type', 'application/json');
+	  	if(error){
+	  		res.status(500).send(JSON.stringify({"status": 500, "error": error, "response": null})); 
+	  		//If there is error, we send the error in the error section with 500 status
+	  	} else {
+  			res.send(JSON.stringify({"status": 200, "error": null, "response": results.insertId}));
+  			//If there is no error, all is good and response is 200OK.
+	  	}
+  	});
+});
+/* PUT tracking listing. */
+router.put('/:id', function(req, res, next) {
+	var CURRENT_TIMESTAMP = { toSqlString: function() { return 'CURRENT_TIMESTAMP()'; } };
+	var tracking = req.body;
+	if(tracking.id != req.params.id)
+	{
+		res.status(403).send(JSON.stringify({"status": 403, "error": JSON.parse('{"message":"Id mismatch"}'), "response": null})); 
+		return;
+	}
+	if(tracking.hasOwnProperty('id'))
+		delete tracking.id;
+	tracking.changesmadeon = CURRENT_TIMESTAMP;
+	connection.query("UPDATE tracking set ? WHERE id = ?",[tracking,req.params.id], function (error, results, fields) {
+		res.setHeader('Content-Type', 'application/json');
+	  	if(error){
+	  		res.status(500).send(JSON.stringify({"status": 500, "error": error, "response": null})); 
+	  		//If there is error, we send the error in the error section with 500 status
+	  	} else {
+  			res.send(JSON.stringify({"status": 200, "error": null, "response": results.affectedRows}));
+  			//If there is no error, all is good and response is 200OK.
+	  	}
+  	});
+});
+/* DELETE tracking listing. */
+router.delete('/:id', function(req, res, next) {
+	connection.query("DELETE FROM tracking WHERE id = ?",req.params.id, function (error, results, fields) {
+		res.setHeader('Content-Type', 'application/json');
+	  	if(error){
+	  		res.status(500).send(JSON.stringify({"status": 500, "error": error, "response": null})); 
+	  		//If there is error, we send the error in the error section with 500 status
+	  	} else {
+  			res.send(JSON.stringify({"status": 200, "error": null, "response": results.affectedRows}));
+  			//If there is no error, all is good and response is 200OK.
+	  	}
+  	});
+});
+module.exports = router;

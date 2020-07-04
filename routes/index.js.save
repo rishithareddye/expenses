@@ -1,0 +1,38 @@
+var express = require('express');
+var router = express.Router();
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+	
+  		res.render('index', { title: 'Express' });
+});
+// serve swagger
+  res.setHeader('Content-Type', 'application/json');
+//console.log(swaggerSpec);
+  res.send(JSON.stringify({"string":"res"}));
+});
+
+/* POST user listing. */
+router.post('/register', function(req, res, next) {
+	var user = req.body;
+	if(user.hasOwnProperty('id'))
+		delete user.id;
+	connection.query("INSERT INTO tracking set ?",user, function (error, results, fields) {
+		res.setHeader('Content-Type', 'application/json');
+	  	if(error){
+	  		res.status(500).send(JSON.stringify({"status": 500, "error": error, "response": null})); 
+	  		//If there is error, we send the error in the error section with 500 status
+	  	} else {
+  			res.send(JSON.stringify({"status": 200, "error": null, "response": results.insertId}));
+  			//If there is no error, all is good and response is 200OK.
+	  	}
+  	});
+});
+
+/* GET home page. */
+router.get('/structure', function(req, res, next) {
+	res.setHeader('Content-Type', 'application/json');
+  		var result = JSON.parse("{\"listoftables\":[\"tracking\"],\"availablemethod\":[\"GET\",\"PUT\",\"POST\",\"DELETE\"],\"tablestructure\":[{\"tracking\":[{\"name\":\"id\",\"type\":\"int(11)\"},{\"name\":\"mode\",\"type\":\"tinyint(4)\"},{\"name\":\"type\",\"type\":\"varchar(100)\"},{\"name\":\"date\",\"type\":\"timestamp\"},{\"name\":\"description\",\"type\":\"varchar(500)\"},{\"name\":\"amount\",\"type\":\"decimal(6,2)\"},{\"name\":\"changesmadeon\",\"type\":\"timestamp\"}]}],\"specialoptions\":{\"login\":{\"method\":\"POST\",\"data\":[{\"name\":\"email\",\"type\":\"varchar(100)\"},{\"name\":\"password\",\"type\":\"varchar\"}],\"route\":\"\/auth\"},\"register\":{\"method\":\"POST\",\"data\":[{\"name\":\"email\",\"type\":\"varchar(100)\"},{\"name\":\"password\",\"type\":\"varchar\"},{\"name\":\"friendlyname\",\"type\":\"varchar(20)\"},{\"name\":\"fullname\",\"type\":\"varchar(100)\"}],\"route\":\"\/register\"},\"changepassword\":{\"method\":\"PUT\",\"data\":[{\"name\":\"id\",\"type\":\"int\"},{\"name\":\"password\",\"type\":\"varchar\"},{\"name\":\"oldpassword\",\"type\":\"varchar\"}],\"route\":\"\/user\/changepassword\/{id}\"},\"updateuser\":{\"method\":\"PUT\",\"data\":[{\"name\":\"email\",\"type\":\"varchar(100)\"},{\"name\":\"friendlyname\",\"type\":\"varchar(20)\"},{\"name\":\"fullname\",\"type\":\"varchar(100)\"}],\"route\":\"\/user\/{id}\"}},\"baseurl\":\"\/api\/expenses\/v1\"}");
+		  res.send(JSON.stringify({"status": 200, "error": null, "response": result}));
+	});
+module.exports = router;

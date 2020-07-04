@@ -1,0 +1,244 @@
+"components": {
+  "schemas": {
+    "tracking": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "mode": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "changesmadeon": {
+          "type": "string"
+        },
+        "userid": {
+          "type": "integer"
+        }
+      }
+    },
+    "successGetTracking": {
+      "properties": {
+        "status": {
+          "type": "integer"
+        },
+        "error": {
+          "type": "object"
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "mode": {
+                "type": "boolean"
+              },
+              "type": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string",
+                "format": "date"
+              },
+              "description": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "number"
+              },
+              "changesmadeon": {
+                "type": "string"
+              },
+              "userid": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "successOtherTracking": {
+      "properties": {
+        "status": {
+          "type": "integer"
+        },
+        "error": {
+          "type": "object"
+        },
+        "response": {
+          "type": "integer"
+        }
+      }
+    },
+    "error": {
+      "properties": {
+        "status": {
+          "type": "integer"
+        },
+        "error": {
+          "type": "object"
+        },
+        "response": {
+          "type": "integer"
+        }
+      }
+    },
+    "user": {
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "email": {
+          "type": "string"
+        },
+        "friendlyname": {
+          "type": "string"
+        },
+        "fullname": {
+          "type": "string"
+        }
+      }
+    },
+    "fulluser": {
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "friendlyname": {
+          "type": "string"
+        },
+        "fullname": {
+          "type": "string"
+        }
+      }
+    },
+          "changePassword": {
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "oldpassword": {
+          "type": "string"
+        }
+      }
+    },
+    "userLogin": {
+      "properties": {
+        "success": {
+          "type": "integer"
+        },
+        "user": {
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "email": {
+              "type": "string"
+            },
+            "friendlyname": {
+              "type": "string"
+            },
+            "fullname": {
+              "type": "string"
+            },
+            "token": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "successGetUser": {
+      "properties": {
+        "status": {
+          "type": "integer"
+        },
+        "error": {
+          "type": "object"
+        },
+        "response": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "email": {
+                "type": "string"
+              },
+              "friendlyname": {
+                "type": "string"
+              },
+              "fullname": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "login": {
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "genericAuth": {
+      "properties": {
+        "request": {
+          "type": "string"
+        }
+      }
+    },
+    "successGenericAuth": {
+      "properties": {
+        "status": {
+          "type": "integer"
+        },
+        "error": {
+          "type": "object"
+        },
+        "response": {
+          "type": "string"
+        }
+      }
+    },
+    "resendPassword": {
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
